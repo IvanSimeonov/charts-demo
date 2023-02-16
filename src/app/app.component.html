@@ -1,0 +1,62 @@
+<div>
+  <h1>ngx-charts demo</h1>
+  <hr />
+  <div>
+    <h2>Total Nominal Gross Domestic Product (GDP)</h2>
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [results]="dataVBC"
+      [legend]="true"
+      [dataLabelFormatting]="dataFormatter"
+      [xAxis]="true"
+      [yAxis]="true"
+      [showGridLines]="false"
+      [showYAxisLabel]="true"
+      [yAxisLabel]="'Amount in Trillions ($)'"
+    ></ngx-charts-bar-vertical>
+  </div>
+  <hr />
+  <div>
+    <h2>World Population (in %)</h2>
+    <ngx-charts-pie-chart
+      [view]="viewPC"
+      [animations]="animationPC"
+      [results]="dataPC"
+      [scheme]="colorSchemePC"
+      [labels]="labelsPC"
+      [doughnut]="doughnut"
+      [tooltipText]="percentageFormatter"
+    ></ngx-charts-pie-chart>
+  </div>
+  <hr />
+  <div>
+    <h2>Annual Wage Salary Comparison</h2>
+    <ngx-charts-line-chart
+      [view]="view"
+      [animations]="true"
+      [results]="dataLC"
+      [showGridLines]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [legendTitle]="'Countries'"
+      [roundDomains]="true"
+      [timeline]="true"
+      [yAxisTickFormatting]="currencyFormatterYAxis"
+      [xAxisTickFormatting]="dateFormatterXAxis"
+    ></ngx-charts-line-chart>
+  </div>
+  <hr />
+  <div>
+    <h2>Highest Average Annual Salary</h2>
+    <ngx-charts-number-card
+      [view]="viewNC"
+      [animations]="animationsNC"
+      [results]="dataNC"
+      [scheme]="colorSchemeNC"
+      [valueFormatting]="currencyFormatter"
+      (select)="onSelectNC($event)"
+    ></ngx-charts-number-card>
+  </div>
+  <hr />
+</div>
