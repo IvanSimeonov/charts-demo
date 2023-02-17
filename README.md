@@ -77,21 +77,342 @@ export class AppModule {}
 
 I will show you some basic examples of the charts I commonly use. Many chart options are customizable, but we will focus only on a few. If you want to see what customizable properties are there for the different charts, you can see them described [here](https://swimlane.gitbook.io/ngx-charts/examples). These charts are widely used in various industries, including business, finance, and science, and they can help you to effectively communicate complex data and insights.
 
+I will give a brief description of a couple of the different properties:
+
+- **view** - the dimensions of the chart [width, height]. If left undefined, the chart will fit the parent container size
+- **results** - the chart data
+  scheme - the color scheme of the chart (custom scheme available as well)
+- **xAxis** - show or hide the x axis
+- **yAxis** - show or hide the y axis
+- **showGridLines** - show or hide the grid lines (xAxis or yAxis must be shown in order to work)
+- **Formatters** - format the text. Examples can be seen in the code snippets below.
+  - dataLabelFormatting
+  - tooltipText
+  - yAxisTickFormatting
+  - xAxisTickFormatting
+  - valueFormatting
+  - etc.
+
+* **[Charts Properties Docs](https://swimlane.gitbook.io/ngx-charts/examples)**
+
+<hr />
+
 ### Vertical Bar Chart example
+
+#### Code Snippets:
+
+`app.component.html`
+
+```
+    <ngx-charts-bar-vertical
+      [results]="dataVBC"
+      [view]="viewVBC"
+      [animations]="animationsVBC"
+      [legend]="legendVBC"
+      [xAxis]="xAxisVBC"
+      [yAxis]="yAxisLabelVBC"
+      [showYAxisLabel]="showYAxisLabelVBC"
+      [yAxisLabel]="yAxisLabelVBC"
+      [dataLabelFormatting]="dataLabelFormatterVBC"
+    ></ngx-charts-bar-vertical>
+```
+
+`app.component.ts`
+
+```
+  // Options for Vertical Bar Chart
+
+  dataVBC = DummyData.totalNominalGDP;
+  viewVBC: [number, number] = [800, 300];
+  animationsVBC = false;
+  legendVBC = true;
+  xAxisVBC = true;
+  yAxisVBC = true;
+  showYAxisLabelVBC = true;
+  yAxisLabelVBC = "Amount in Trillions ($)";
+
+  dataLabelFormatterVBC(tooltipText: any) {
+    return "$" + tooltipText + " trillion";
+  }
+```
+
+#### Result:
 
 [![VerticalBarChart.gif](https://s9.gifyu.com/images/VerticalBarChart.gif)](https://gifyu.com/image/SqUyD)
 
+<hr />
 ### Pie Chart example
+
+#### Code Snippets:
+
+`app.component.html`
+
+```
+    <ngx-charts-pie-chart
+      [results]="dataPC"
+      [view]="viewPC"
+      [animations]="animationPC"
+      [scheme]="colorSchemePC"
+      [labels]="labelsPC"
+      [doughnut]="doughnut"
+      [tooltipText]="percentageFormatterPC"
+    ></ngx-charts-pie-chart>
+```
+
+`app.component.ts`
+
+```
+  // Options for Pie Chart
+
+  dataPC = DummyData.totalPopulation;
+  viewPC: [number, number] = [700, 400];
+  animationPC = true;
+  colorSchemePC = "vivid";
+  labelsPC = true;
+  doughnut = true;
+
+  percentageFormatterPC(data: any): string {
+    return data.value + "%";
+  }
+```
+
+#### Result:
 
 [![DoughnutPieChart.gif](https://s3.gifyu.com/images/DoughnatPieChart.gif)](https://gifyu.com/image/SqUyy)
 
+<hr />
+
 ### Line Chart example
+
+#### Code Snippets:
+
+`app.component.html`
+
+```
+    <ngx-charts-line-chart
+      [results]="dataLC"
+      [view]="viewLC"
+      [animations]="animationsLC"
+      [showGridLines]="showGridLinesLC"
+      [legend]="legendLC"
+      [legendTitle]="legendTitleLC"
+      [roundDomains]="roundDomainsLC"
+      [xAxis]="true"
+      [yAxis]="true"
+      [yAxisTickFormatting]="currencyFormatterLC"
+      [xAxisTickFormatting]="dateFormatterLC"
+    ></ngx-charts-line-chart>
+```
+
+`app.component.ts`
+
+```
+  // Options for Line Chart
+
+  dataLC = DummyData.annualWageSalary;
+  viewLC: [number, number] = [700, 300];
+  animationsLC = true;
+  showGridLinesLC = true;
+  legendLC = true;
+  legendTitleLC = "Countries";
+  roundDomainsLC = true;
+  xAxisLC = true;
+  yAxisLC = true;
+
+  currencyFormatterLC(moneyAmount: any): string {
+    const currencyFormat = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    return currencyFormat.format(moneyAmount);
+  }
+
+  dateFormatterLC(date: string): string {
+    const datePipe = new DatePipe("en-US");
+    let formatted = datePipe.transform(date);
+    return formatted ? formatted : date;
+  }
+```
+
+#### Result:
 
 [![LineChart.gif](https://s3.gifyu.com/images/LineChart.gif)](https://gifyu.com/image/SqUyB)
 
+<hr />
+
 ### Number Cards example
 
+#### Code Snippets:
+
+`app.component.html`
+
+```
+    <ngx-charts-number-card
+      [view]="viewNC"
+      [animations]="animationsNC"
+      [results]="dataNC"
+      [scheme]="colorSchemeNC"
+      [valueFormatting]="currencyFormatterNC"
+    ></ngx-charts-number-card>
+```
+
+`app.component.ts`
+
+```
+  // Options for Number Cards
+  dataNC = DummyData.highestAvgAnnualSalary;
+  viewNC: [number, number] = [800, 150];
+  animationsNC = true;
+  colorSchemeNC = "fire";
+
+  currencyFormatterNC(moneyAmount: any): string {
+    const currencyFormat = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    return currencyFormat.format(moneyAmount.value);
+  }
+```
+
+#### Result:
+
 [![NumberCards.gif](https://s9.gifyu.com/images/NumberCards.gif)](https://gifyu.com/image/SqUyG)
+
+<hr />
+
+Data sets used for the charts can be found in `data.ts`:
+
+```
+export const totalNominalGDP = [
+  {
+    name: "USA",
+    value: 23.17,
+  },
+  {
+    name: "China",
+    value: 16.28,
+  },
+  {
+    name: "Japan",
+    value: 5.15,
+  },
+  {
+    name: "Germany",
+    value: 4.25,
+  },
+  {
+    name: "United Kingdom",
+    value: 3.09,
+  },
+];
+
+export const totalPopulation = [
+  {
+    name: "Rest",
+    value: 53.24,
+  },
+  {
+    name: "China",
+    value: 18.47,
+  },
+  {
+    name: "India",
+    value: 17.7,
+  },
+  {
+    name: "USA",
+    value: 4.25,
+  },
+  {
+    name: "Indonesia",
+    value: 3.51,
+  },
+  {
+    name: "Pakistan",
+    value: 2.83,
+  },
+];
+
+export const annualWageSalary = [
+  {
+    name: "USA",
+    series: [
+      {
+        value: 39238,
+        name: "2000-09-24T00:33:38.246Z",
+      },
+      {
+        value: 45647,
+        name: "2005-09-24T00:33:38.246Z",
+      },
+      {
+        value: 53235,
+        name: "2010-09-24T00:33:38.246Z",
+      },
+      {
+        value: 59993,
+        name: "2015-09-24T00:33:38.246Z",
+      },
+      {
+        value: 71655,
+        name: "2020-09-24T00:33:38.246Z",
+      },
+    ],
+  },
+  {
+    name: "Bulgaria",
+    series: [
+      {
+        value: 1910,
+        name: "2000-09-24T00:33:38.246Z",
+      },
+      {
+        value: 3030,
+        name: "2005-09-24T00:33:38.246Z",
+      },
+      {
+        value: 6180,
+        name: "2010-09-24T00:33:38.246Z",
+      },
+      {
+        value: 7110,
+        name: "2015-09-24T00:33:38.246Z",
+      },
+      {
+        value: 9320,
+        name: "2020-09-24T00:33:38.246Z",
+      },
+    ],
+  },
+];
+
+export const highestAvgAnnualSalary = [
+  {
+    name: "Luxembourg",
+    value: 128169,
+  },
+  {
+    name: "Switzerland",
+    value: 94794,
+  },
+  {
+    name: "Ireland",
+    value: 87688,
+  },
+  {
+    name: "Norway",
+    value: 85358,
+  },
+  {
+    name: "United States",
+    value: 68309,
+  },
+];
+
+
+```
+
+<hr/>
 
 ## Charts Preview
 
